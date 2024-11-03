@@ -1,4 +1,3 @@
-// main.tsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -10,14 +9,25 @@ import './index.css';
 const queryClient = new QueryClient();
 const router = createRouter({ routeTree });
 
-
+// Updated theme to reflect purple and blue gradient tones
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#6a1b9a', // Purple 
+      main: '#6a1b9a', // Purple
+      light: '#9c4dcc', // Lighter shade for hover effects
+      dark: '#38006b', // Darker shade if needed
     },
     secondary: {
-      main: '#ff4081', // pinkish-red
+      main: '#1976d2', // Blue 
+      light: '#63a4ff', // Lighter shade for secondary hover
+      dark: '#004ba0', // Darker shade for additional contrast
+    },
+    background: {
+      default: 'linear-gradient(to bottom right, #6a1b9a, #1976d2)', // Background gradient
+    },
+    text: {
+      primary: '#ffffff', // White text for contrast on gradient
+      secondary: '#000000', // Black text for use on white backgrounds
     },
   },
 });

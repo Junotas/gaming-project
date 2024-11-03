@@ -48,13 +48,16 @@ export const Route = createFileRoute('/TicTacToe')({
     };
 
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen" style={{ backgroundColor: '#f3e5f5' }}>
-        <Typography variant="h3" sx={{ fontWeight: 'bold', color: 'primary.main', mb: 4 }}>
+      <div
+        className="flex flex-col justify-center items-center min-h-screen"
+        style={{ background: 'linear-gradient(to bottom right, #6a1b9a, #1976d2)' }}
+      >
+        <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#ffffff', mb: 4 }}>
           Tic-Tac-Toe
         </Typography>
 
         <div style={{ minHeight: 40, marginBottom: 16 }}>
-          <Typography variant="h5" sx={{ color: 'primary.main', visibility: winner ? 'visible' : 'hidden' }}>
+          <Typography variant="h5" sx={{ color: '#ffffff', visibility: winner ? 'visible' : 'hidden' }}>
             {winner === 'Draw' ? "It's a draw!" : `Winner: ${winner}`}
           </Typography>
         </div>
@@ -70,9 +73,15 @@ export const Route = createFileRoute('/TicTacToe')({
                 width: 100,
                 height: 100,
                 color: value === 'X' ? 'primary.main' : 'secondary.main',
+                backgroundColor: '#ffffff',
+                borderColor: '#6a1b9a',
+                borderWidth: '2px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                '&:hover': {
+                  backgroundColor: '#f3e5f5',
+                },
               }}
             >
               {value}

@@ -15,6 +15,10 @@ export const Route = createRootRoute({
           <InfoIcon fontSize="small" />
           <span>TicTacToe</span>
         </Link>
+        <Link to="/snake" activeProps={{}} className={baseLinkStyles}>
+          <InfoIcon fontSize="small" />
+          <span>Snake</span>
+        </Link>
       </nav>
       <Outlet />
     </>

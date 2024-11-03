@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SnakeImport } from './routes/snake'
 import { Route as TicTacToeImport } from './routes/TicTacToe'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const SnakeRoute = SnakeImport.update({
+  id: '/snake',
+  path: '/snake',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const TicTacToeRoute = TicTacToeImport.update({
   id: '/TicTacToe',
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicTacToeImport
       parentRoute: typeof rootRoute
     }
+    '/snake': {
+      id: '/snake'
+      path: '/snake'
+      fullPath: '/snake'
+      preLoaderRoute: typeof SnakeImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/snake': typeof SnakeRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/snake': typeof SnakeRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/snake': typeof SnakeRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/TicTacToe'
+  fullPaths: '/' | '/TicTacToe' | '/snake'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/TicTacToe'
-  id: '__root__' | '/' | '/TicTacToe'
+  to: '/' | '/TicTacToe' | '/snake'
+  id: '__root__' | '/' | '/TicTacToe' | '/snake'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TicTacToeRoute: typeof TicTacToeRoute
+  SnakeRoute: typeof SnakeRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TicTacToeRoute: TicTacToeRoute,
+  SnakeRoute: SnakeRoute,
 }
 
 export const routeTree = rootRoute
@@ -99,7 +118,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/TicTacToe"
+        "/TicTacToe",
+        "/snake"
       ]
     },
     "/": {
@@ -107,6 +127,9 @@ export const routeTree = rootRoute
     },
     "/TicTacToe": {
       "filePath": "TicTacToe.tsx"
+    },
+    "/snake": {
+      "filePath": "snake.tsx"
     }
   }
 }

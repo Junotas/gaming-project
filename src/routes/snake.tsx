@@ -38,6 +38,20 @@ export const Route = createFileRoute('/snake')({
       return () => document.removeEventListener('keydown', handleKeyPress);
     }, [direction]);
 
+    const generateFoodPosition = (): { x: number; y: number } => {
+        let newFoodPosition: { x: number; y: number };
+      
+        do {
+          newFoodPosition = {
+            x: Math.floor(Math.random() * GRID_SIZE),
+            y: Math.floor(Math.random() * GRID_SIZE),
+          };
+        } while (snake.some((segment) => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
+      
+        return newFoodPosition;
+      };
+      
+
     useEffect(() => {
       if (!isGameStarted || isGameOver || !direction) return;
 
@@ -46,6 +60,7 @@ export const Route = createFileRoute('/snake')({
           const newSnake = [...prevSnake];
           let head = { ...newSnake[0] };
 
+          // Update head position with wrap-around
           switch (direction) {
             case 'UP':
               head.y = (head.y - 1 + GRID_SIZE) % GRID_SIZE;
@@ -61,6 +76,7 @@ export const Route = createFileRoute('/snake')({
               break;
           }
 
+          // Check collision with itself
           if (newSnake.some((segment) => segment.x === head.x && segment.y === head.y)) {
             setIsGameOver(true);
             return prevSnake;
@@ -68,13 +84,11 @@ export const Route = createFileRoute('/snake')({
 
           newSnake.unshift(head);
 
+          // Check if food is eaten
           if (head.x === food.x && head.y === food.y) {
-            setFood({
-              x: Math.floor(Math.random() * GRID_SIZE),
-              y: Math.floor(Math.random() * GRID_SIZE),
-            });
+            setFood(generateFoodPosition());
           } else {
-            newSnake.pop();
+            newSnake.pop(); // Move the snake without growing
           }
 
           return newSnake;
@@ -86,7 +100,7 @@ export const Route = createFileRoute('/snake')({
 
     const resetGame = () => {
       setSnake(INITIAL_SNAKE_POSITION);
-      setFood(INITIAL_FOOD_POSITION);
+      setFood(generateFoodPosition());
       setDirection(null);
       setIsGameStarted(false);
       setIsGameOver(false);
@@ -133,6 +147,7 @@ export const Route = createFileRoute('/snake')({
           <p>**S** - Move Down</p>
           <p>**A** - Move Left</p>
           <p>**D** - Move Right</p>
+          <p>Wrap-around at edges!</p>
         </div>
       </div>
     );

@@ -11,9 +11,9 @@ export const Route = createRootRoute({
           <HomeIcon fontSize="small" />
           <span>Home</span>
         </Link>
-        <Link to="/about" activeProps={{}} className={baseLinkStyles}>
+        <Link to="/TicTacToe" activeProps={{}} className={baseLinkStyles}>
           <InfoIcon fontSize="small" />
-          <span>About</span>
+          <span>TicTacToe</span>
         </Link>
       </nav>
       <Outlet />

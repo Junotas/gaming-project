@@ -1,88 +1,18 @@
-import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { useUserList } from '../hooks/useUserList';
-import { Button, IconButton, TextField } from '@mui/material';
-import GroupIcon from '@mui/icons-material/Group';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 export const Route = createFileRoute('/')({
   component: () => {
-    const [newUserName, setNewUserName] = useState('');
-    const { users, isLoading, error, toggleFetch, addUser, removeUser, isModified } = useUserList();
-
-    const handleAddUser = () => {
-      if (newUserName.trim()) {
-        addUser(newUserName);
-        setNewUserName('');
-      }
-    };
-
-    const handleFormSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      handleAddUser();
-    };
-
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen" style={{ backgroundColor: '#f3e5f5' }}>
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
-          <div className="flex justify-between items-center border-b pb-3 mb-4">
-            <div className="flex items-center space-x-2">
-              <GroupIcon sx={{ color: '#6a1b9a' }} />
-              <h2 className="text-2xl font-bold" style={{ color: '#6a1b9a' }}>User List</h2>
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={toggleFetch}
-              sx={{ fontWeight: 'bold', marginBottom: 2 }}
-              startIcon={<ReplayCircleFilledIcon />}
-            >
-              {isModified ? 'Reset List' : 'Fetch List'}
-            </Button>
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-purple-500 to-blue-800 text-white">
+        <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-center text-black">
+          <div className="flex flex-col items-center space-y-4">
+            <SportsEsportsIcon sx={{ fontSize: 80, color: '#6a1b9a' }} />
+            <h1 className="text-4xl font-bold">Welcome to GameZone</h1>
+            <p className="text-lg mt-2">
+              Welcome to my gaming website, where you can find all of my game projects.
+            </p>
           </div>
-
-          <div className="max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-            {isLoading ? (
-              <p>Loading users...</p>
-            ) : error ? (
-              <p style={{ color: '#d32f2f' }}>Error loading users</p>
-            ) : (
-              <ul className="list-disc list-inside text-center space-y-2">
-                {users.map((user) => (
-                  <li key={user.id} className="flex justify-between items-center text-lg">
-                    {user.name}
-                    <IconButton
-                      onClick={() => removeUser(user.id)}
-                      sx={{ color: 'secondary.main' }}
-                      aria-label="delete user"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          <form onSubmit={handleFormSubmit} className="flex items-center mt-4">
-            <TextField
-              variant="outlined"
-              label="Add new user"
-              value={newUserName}
-              onChange={(e) => setNewUserName(e.target.value)}
-              fullWidth
-              sx={{ mr: 2 }}
-            />
-            <IconButton
-              type="submit"
-              color="secondary"
-              aria-label="add user"
-            >
-              <AddCircleIcon />
-            </IconButton>
-          </form>
         </div>
       </div>
     );

@@ -13,11 +13,25 @@ export const Route = createFileRoute('/mole')({
     const [score, setScore] = useState(0);
     const [isGameActive, setIsGameActive] = useState(false);
     const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
+    const [isPaused, setIsPaused] = useState(false);
 
     const startGame = () => {
       setScore(0);
       setTimeLeft(GAME_DURATION);
       setIsGameActive(true);
+      setIsPaused(false);
+    };
+
+    const pauseGame = () => {
+      setIsPaused((prev) => !prev);
+    };
+
+    const resetGame = () => {
+      setScore(0);
+      setTimeLeft(GAME_DURATION);
+      setIsGameActive(false);
+      setIsPaused(false);
+      setMolePosition(null);
     };
 
     const endGame = () => {
@@ -26,19 +40,23 @@ export const Route = createFileRoute('/mole')({
     };
 
     const randomizeMolePosition = () => {
-      const randomPosition = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
-      setMolePosition(randomPosition);
+      if (!isPaused) {
+        const randomPosition = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
+        setMolePosition(randomPosition);
+      }
     };
 
     const handleWhack = (position: number) => {
       if (position === molePosition) {
         setScore((prevScore) => prevScore + 1);
         setMolePosition(null);
+      } else {
+        setScore((prevScore) => Math.max(0, prevScore - 1)); // Deduct a point for incorrect clicks
       }
     };
 
     useEffect(() => {
-      if (!isGameActive) return;
+      if (!isGameActive || isPaused) return;
       const moleInterval = setInterval(randomizeMolePosition, MOLE_APPEARANCE_INTERVAL);
       const timerInterval = setInterval(() => {
         setTimeLeft((prevTime) => {
@@ -55,7 +73,7 @@ export const Route = createFileRoute('/mole')({
         clearInterval(moleInterval);
         clearInterval(timerInterval);
       };
-    }, [isGameActive]);
+    }, [isGameActive, isPaused]);
 
     return (
       <div
@@ -107,7 +125,7 @@ export const Route = createFileRoute('/mole')({
           ))}
         </div>
 
-        {!isGameActive && (
+        {!isGameActive ? (
           <Button
             onClick={startGame}
             variant="contained"
@@ -116,6 +134,25 @@ export const Route = createFileRoute('/mole')({
           >
             Start Game
           </Button>
+        ) : (
+          <>
+            <Button
+              onClick={pauseGame}
+              variant="contained"
+              color="secondary"
+              sx={{ mt: 2, mr: 2, fontWeight: 'bold' }}
+            >
+              {isPaused ? "Resume" : "Pause"}
+            </Button>
+            <Button
+              onClick={resetGame}
+              variant="contained"
+              color="error"
+              sx={{ mt: 2, fontWeight: 'bold' }}
+            >
+              Reset
+            </Button>
+          </>
         )}
 
         {isGameActive && timeLeft <= 0 && (

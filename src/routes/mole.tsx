@@ -51,7 +51,7 @@ export const Route = createFileRoute('/mole')({
         setScore((prevScore) => prevScore + 1);
         setMolePosition(null);
       } else {
-        setScore((prevScore) => Math.max(0, prevScore - 1)); // Deduct a point for incorrect clicks
+        setScore((prevScore) => prevScore - 1); // Allow negative points for incorrect clicks
       }
     };
 

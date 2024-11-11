@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
+import { useTheme } from '@mui/material/styles';
 
 const GRID_SIZE = 10;
 const INITIAL_SNAKE_POSITION = [{ x: 2, y: 2 }];
@@ -9,6 +10,7 @@ type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
 export const Route = createFileRoute('/snake')({
   component: () => {
+    const theme = useTheme();
     const [snake, setSnake] = useState(INITIAL_SNAKE_POSITION);
     const [food, setFood] = useState(INITIAL_FOOD_POSITION);
     const [direction, setDirection] = useState<Direction | null>(null);
@@ -39,28 +41,25 @@ export const Route = createFileRoute('/snake')({
     }, [direction]);
 
     const generateFoodPosition = (): { x: number; y: number } => {
-        let newFoodPosition: { x: number; y: number };
-      
-        do {
-          newFoodPosition = {
-            x: Math.floor(Math.random() * GRID_SIZE),
-            y: Math.floor(Math.random() * GRID_SIZE),
-          };
-        } while (snake.some((segment) => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
-      
-        return newFoodPosition;
-      };
-      
+      let newFoodPosition: { x: number; y: number };
+
+      do {
+        newFoodPosition = {
+          x: Math.floor(Math.random() * GRID_SIZE),
+          y: Math.floor(Math.random() * GRID_SIZE),
+        };
+      } while (snake.some((segment) => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
+
+      return newFoodPosition;
+    };
+
 
     useEffect(() => {
       if (!isGameStarted || isGameOver || !direction) return;
-
       const interval = setInterval(() => {
         setSnake((prevSnake) => {
           const newSnake = [...prevSnake];
           let head = { ...newSnake[0] };
-
-          // Update head position with wrap-around
           switch (direction) {
             case 'UP':
               head.y = (head.y - 1 + GRID_SIZE) % GRID_SIZE;
@@ -75,26 +74,20 @@ export const Route = createFileRoute('/snake')({
               head.x = (head.x + 1) % GRID_SIZE;
               break;
           }
-
           // Check collision with itself
           if (newSnake.some((segment) => segment.x === head.x && segment.y === head.y)) {
             setIsGameOver(true);
             return prevSnake;
           }
-
           newSnake.unshift(head);
-
-          // Check if food is eaten
           if (head.x === food.x && head.y === food.y) {
             setFood(generateFoodPosition());
           } else {
             newSnake.pop(); // Move the snake without growing
           }
-
           return newSnake;
         });
       }, 200);
-
       return () => clearInterval(interval);
     }, [direction, food, isGameOver, isGameStarted]);
 
@@ -107,12 +100,15 @@ export const Route = createFileRoute('/snake')({
     };
 
     return (
-      <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white">
+      <div
+        className="flex flex-col items-center min-h-screen"
+        style={{ background: theme.palette.background.default, color: theme.palette.text.primary }}
+      >
         <h1 className="text-2xl font-bold mb-4">Snake Game</h1>
-
         <div
-          className="relative grid gap-1 bg-gray-700 p-4"
+          className="relative grid gap-1"
           style={{
+            background: theme.palette.background.paper,
             gridTemplateColumns: `repeat(${GRID_SIZE}, 20px)`,
             gridTemplateRows: `repeat(${GRID_SIZE}, 20px)`,
           }}
@@ -130,25 +126,36 @@ export const Route = createFileRoute('/snake')({
             })
           )}
         </div>
-
-        {isGameOver && <p className="mt-4 text-red-500">Game Over! Press Restart to play again.</p>}
-
+        {isGameOver && <p className="mt-4" style={{ color: theme.palette.error.main }}>Game Over! Press Restart to play again.</p>}
         <button
           onClick={resetGame}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-500"
+          className="mt-4 px-4 py-2 font-bold rounded"
+          style={{
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.text.primary,
+          }}
         >
           Restart Game
         </button>
 
-        <div className="absolute bottom-16 right-4 bg-gray-800 p-3 rounded shadow-md">
-          <h2 className="text-lg font-bold">Game Controls</h2>
-          <p>Game starts with **W, A, S, D** keys</p>
-          <p>**W** - Move Up</p>
-          <p>**S** - Move Down</p>
-          <p>**A** - Move Left</p>
-          <p>**D** - Move Right</p>
-          <p>Wrap-around at edges!</p>
-        </div>
+        <div
+  className="absolute bottom-16 right-4 p-3 rounded shadow-md"
+  style={{
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.secondary,
+  }}
+>
+  <h2 className="text-lg font-bold" style={{ color: theme.palette.primary.main }}>
+    Game Controls
+  </h2>
+  <p>Game starts with **W, A, S, D** keys</p>
+  <p>**W** - Move Up</p>
+  <p>**S** - Move Down</p>
+  <p>**A** - Move Left</p>
+  <p>**D** - Move Right</p>
+  <p>Wrap-around at edges!</p>
+</div>
+
       </div>
     );
   },

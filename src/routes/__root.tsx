@@ -1,5 +1,5 @@
 import { Link, Outlet, createRootRoute } from '@tanstack/react-router';
-import { Home as HomeIcon} from '@mui/icons-material';
+import { Home as HomeIcon, Gavel as GavelIcon } from '@mui/icons-material';
 import Grid3x3Icon from '@mui/icons-material/Grid3x3';
 import { GiSnake } from "react-icons/gi";
 
@@ -23,9 +23,9 @@ export const Route = createRootRoute({
           <span>Snake</span>
         </Link>
         <Link to="/mole" activeProps={{}} className={baseLinkStyles}>
-         <GiSnake fontSize="small" />
-         <span>Mole</span>
-          </Link>
+          <GavelIcon fontSize="small" />
+          <span>Whack-A-Mole</span>
+        </Link>
 
       </nav>
       <Outlet />

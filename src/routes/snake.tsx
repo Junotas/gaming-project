@@ -148,11 +148,11 @@ export const Route = createFileRoute('/snake')({
   <h2 className="text-lg font-bold" style={{ color: theme.palette.primary.main }}>
     Game Controls
   </h2>
-  <p>Game starts with **W, A, S, D** keys</p>
-  <p>**W** - Move Up</p>
-  <p>**S** - Move Down</p>
-  <p>**A** - Move Left</p>
-  <p>**D** - Move Right</p>
+  <p>Game starts with W, A, S, D keys</p>
+  <p>W - Move Up</p>
+  <p>S - Move Down</p>
+  <p>A - Move Left</p>
+  <p>D - Move Right</p>
   <p>Wrap-around at edges!</p>
 </div>
 

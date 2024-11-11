@@ -22,6 +22,11 @@ export const Route = createRootRoute({
           <GiSnake fontSize="small" />
           <span>Snake</span>
         </Link>
+        <Link to="/mole" activeProps={{}} className={baseLinkStyles}>
+         <GiSnake fontSize="small" />
+         <span>Mole</span>
+          </Link>
+
       </nav>
       <Outlet />
     </>

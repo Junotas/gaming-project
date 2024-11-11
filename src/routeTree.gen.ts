@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SnakeImport } from './routes/snake'
+import { Route as MoleImport } from './routes/mole'
 import { Route as TicTacToeImport } from './routes/TicTacToe'
 import { Route as IndexImport } from './routes/index'
 
@@ -20,6 +21,12 @@ import { Route as IndexImport } from './routes/index'
 const SnakeRoute = SnakeImport.update({
   id: '/snake',
   path: '/snake',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MoleRoute = MoleImport.update({
+  id: '/mole',
+  path: '/mole',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicTacToeImport
       parentRoute: typeof rootRoute
     }
+    '/mole': {
+      id: '/mole'
+      path: '/mole'
+      fullPath: '/mole'
+      preLoaderRoute: typeof MoleImport
+      parentRoute: typeof rootRoute
+    }
     '/snake': {
       id: '/snake'
       path: '/snake'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/mole': typeof MoleRoute
   '/snake': typeof SnakeRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/mole': typeof MoleRoute
   '/snake': typeof SnakeRoute
 }
 
@@ -81,27 +97,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/mole': typeof MoleRoute
   '/snake': typeof SnakeRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/TicTacToe' | '/snake'
+  fullPaths: '/' | '/TicTacToe' | '/mole' | '/snake'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/TicTacToe' | '/snake'
-  id: '__root__' | '/' | '/TicTacToe' | '/snake'
+  to: '/' | '/TicTacToe' | '/mole' | '/snake'
+  id: '__root__' | '/' | '/TicTacToe' | '/mole' | '/snake'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TicTacToeRoute: typeof TicTacToeRoute
+  MoleRoute: typeof MoleRoute
   SnakeRoute: typeof SnakeRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TicTacToeRoute: TicTacToeRoute,
+  MoleRoute: MoleRoute,
   SnakeRoute: SnakeRoute,
 }
 
@@ -119,6 +138,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/TicTacToe",
+        "/mole",
         "/snake"
       ]
     },
@@ -127,6 +147,9 @@ export const routeTree = rootRoute
     },
     "/TicTacToe": {
       "filePath": "TicTacToe.tsx"
+    },
+    "/mole": {
+      "filePath": "mole.tsx"
     },
     "/snake": {
       "filePath": "snake.tsx"

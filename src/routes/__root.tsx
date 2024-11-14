@@ -26,7 +26,10 @@ export const Route = createRootRoute({
           <GavelIcon fontSize="small" />
           <span>Whack-A-Mole</span>
         </Link>
-
+        <Link to="/memory" activeProps={{}} className={baseLinkStyles}>
+          <GavelIcon fontSize="small" /> // Change this to a "memory" icon
+          <span>Memory</span>
+        </Link>
       </nav>
       <Outlet />
     </>

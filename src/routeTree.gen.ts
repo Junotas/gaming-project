@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SnakeImport } from './routes/snake'
 import { Route as MoleImport } from './routes/mole'
+import { Route as MemoryImport } from './routes/memory'
 import { Route as TicTacToeImport } from './routes/TicTacToe'
 import { Route as IndexImport } from './routes/index'
 
@@ -27,6 +28,12 @@ const SnakeRoute = SnakeImport.update({
 const MoleRoute = MoleImport.update({
   id: '/mole',
   path: '/mole',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MemoryRoute = MemoryImport.update({
+  id: '/memory',
+  path: '/memory',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicTacToeImport
       parentRoute: typeof rootRoute
     }
+    '/memory': {
+      id: '/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof MemoryImport
+      parentRoute: typeof rootRoute
+    }
     '/mole': {
       id: '/mole'
       path: '/mole'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/memory': typeof MemoryRoute
   '/mole': typeof MoleRoute
   '/snake': typeof SnakeRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/memory': typeof MemoryRoute
   '/mole': typeof MoleRoute
   '/snake': typeof SnakeRoute
 }
@@ -97,22 +113,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/TicTacToe': typeof TicTacToeRoute
+  '/memory': typeof MemoryRoute
   '/mole': typeof MoleRoute
   '/snake': typeof SnakeRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/TicTacToe' | '/mole' | '/snake'
+  fullPaths: '/' | '/TicTacToe' | '/memory' | '/mole' | '/snake'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/TicTacToe' | '/mole' | '/snake'
-  id: '__root__' | '/' | '/TicTacToe' | '/mole' | '/snake'
+  to: '/' | '/TicTacToe' | '/memory' | '/mole' | '/snake'
+  id: '__root__' | '/' | '/TicTacToe' | '/memory' | '/mole' | '/snake'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TicTacToeRoute: typeof TicTacToeRoute
+  MemoryRoute: typeof MemoryRoute
   MoleRoute: typeof MoleRoute
   SnakeRoute: typeof SnakeRoute
 }
@@ -120,6 +138,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TicTacToeRoute: TicTacToeRoute,
+  MemoryRoute: MemoryRoute,
   MoleRoute: MoleRoute,
   SnakeRoute: SnakeRoute,
 }
@@ -138,6 +157,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/TicTacToe",
+        "/memory",
         "/mole",
         "/snake"
       ]
@@ -147,6 +167,9 @@ export const routeTree = rootRoute
     },
     "/TicTacToe": {
       "filePath": "TicTacToe.tsx"
+    },
+    "/memory": {
+      "filePath": "memory.tsx"
     },
     "/mole": {
       "filePath": "mole.tsx"

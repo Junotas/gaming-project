@@ -3,7 +3,7 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { Typography, Paper, useTheme } from '@mui/material';
 
 export const Route = createFileRoute('/')({
-  component: () => {
+  component: function Component() {
     const theme = useTheme();
     return (
       <div className="flex flex-col justify-center items-center min-h-screen" style={{ background: theme.palette.background.default, color: theme.palette.text.primary }}>

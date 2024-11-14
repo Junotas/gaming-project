@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { Typography, Button, useTheme } from '@mui/material';
 
@@ -7,7 +7,7 @@ const MOLE_APPEARANCE_INTERVAL = 1000;
 const GAME_DURATION = 30000; // 30 seconds
 
 export const Route = createFileRoute('/mole')({
-  component: () => {
+  component: function MoleGame() {
     const theme = useTheme();
     const [molePosition, setMolePosition] = useState<number | null>(null);
     const [score, setScore] = useState(0);
@@ -34,17 +34,17 @@ export const Route = createFileRoute('/mole')({
       setMolePosition(null);
     };
 
-    const endGame = () => {
+    const endGame = useCallback(() => {
       setIsGameActive(false);
       setMolePosition(null);
-    };
+    }, []);
 
-    const randomizeMolePosition = () => {
+    const randomizeMolePosition = useCallback(() => {
       if (!isPaused) {
         const randomPosition = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
         setMolePosition(randomPosition);
       }
-    };
+    }, [isPaused]);
 
     const handleWhack = (position: number) => {
       if (position === molePosition) {
@@ -57,7 +57,9 @@ export const Route = createFileRoute('/mole')({
 
     useEffect(() => {
       if (!isGameActive || isPaused) return;
+
       const moleInterval = setInterval(randomizeMolePosition, MOLE_APPEARANCE_INTERVAL);
+
       const timerInterval = setInterval(() => {
         setTimeLeft((prevTime) => {
           if (prevTime <= 1000) {
@@ -69,11 +71,12 @@ export const Route = createFileRoute('/mole')({
           return prevTime - 1000;
         });
       }, 1000);
+
       return () => {
         clearInterval(moleInterval);
         clearInterval(timerInterval);
       };
-    }, [isGameActive, isPaused]);
+    }, [isGameActive, isPaused, randomizeMolePosition, endGame]);
 
     return (
       <div
@@ -142,7 +145,7 @@ export const Route = createFileRoute('/mole')({
               color="secondary"
               sx={{ mt: 2, mr: 2, fontWeight: 'bold' }}
             >
-              {isPaused ? "Resume" : "Pause"}
+              {isPaused ? 'Resume' : 'Pause'}
             </Button>
             <Button
               onClick={resetGame}

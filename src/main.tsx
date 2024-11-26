@@ -7,8 +7,10 @@ import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import './index.css';
 
 const queryClient = new QueryClient();
-const router = createRouter({ routeTree });
-
+const router = createRouter({
+  routeTree,
+  basepath: '/gaming-project',
+});
 // Updated theme to reflect purple and blue gradient tones
 const theme = createTheme({
   palette: {

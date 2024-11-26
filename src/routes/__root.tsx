@@ -2,6 +2,7 @@ import { Link, Outlet, createRootRoute } from '@tanstack/react-router';
 import { Home as HomeIcon, Gavel as GavelIcon } from '@mui/icons-material';
 import Grid3x3Icon from '@mui/icons-material/Grid3x3';
 import { GiSnake } from "react-icons/gi";
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 
 const baseLinkStyles = "flex items-center space-x-2 hover:text-purple-200 transition font-bold";
@@ -27,7 +28,7 @@ export const Route = createRootRoute({
           <span>Whack-A-Mole</span>
         </Link>
         <Link to="/memory" activeProps={{}} className={baseLinkStyles}>
-          <GavelIcon fontSize="small" /> // Change this to a "memory" icon
+          <DashboardCustomizeIcon fontSize="small" />
           <span>Memory</span>
         </Link>
       </nav>

@@ -1,6 +1,6 @@
 # 🎮 Gaming Site
 
-Welcome to my gaming website! Here, I’ll be building and adding a collection of small games over time, such as Snake, Tic-Tac-Toe, and more. Each game is designed for quick, casual fun and showcases different coding techniques.
+Welcome to my gaming website!
 
 ## 🚀 Getting Started
 
